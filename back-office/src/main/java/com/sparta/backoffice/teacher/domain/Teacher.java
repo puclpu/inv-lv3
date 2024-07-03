@@ -1,5 +1,6 @@
 package com.sparta.backoffice.teacher.domain;
 
+import com.sparta.backoffice.teacher.dto.TeacherRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,4 +33,11 @@ public class Teacher {
 
     @Column(name = "introduce", nullable = false, length = 150)
     private String introduce;
+
+    public void update(TeacherRequestDTO requestDTO) {
+        this.experience = requestDTO.getExperience();
+        this.company = requestDTO.getCompany();
+        this.phone = requestDTO.getPhone();
+        this.introduce = requestDTO.getIntroduce();
+    }
 }

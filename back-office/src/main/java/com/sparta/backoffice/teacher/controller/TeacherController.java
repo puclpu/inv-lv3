@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admins/teachers")
@@ -25,6 +22,13 @@ public class TeacherController {
     @PostMapping()
     public ResponseEntity<TeacherResponseDTO> createTeacher(@RequestBody TeacherRequestDTO requestDTO) {
         TeacherResponseDTO responseDTO = teacherService.createTeacher(requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @Secured(Role.Authority.MANAGER)
+    @PutMapping("/{teacherId}")
+    public ResponseEntity<TeacherResponseDTO> updateTeacher(@RequestBody TeacherRequestDTO requestDTO, @PathVariable Long teacherId) {
+        TeacherResponseDTO responseDTO = teacherService.updateTeacher(requestDTO, teacherId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
