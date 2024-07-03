@@ -3,6 +3,7 @@ package com.sparta.backoffice.global.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -19,10 +20,8 @@ import java.util.Map;
 public class CustomExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Map<String, String>> handleException(Exception e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(getResponse(e.getMessage(), status));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getResponse(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -44,6 +43,11 @@ public class CustomExceptionHandler {
         String errorMessage = stringBuilder.toString();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getResponse(errorMessage, HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(getResponse(e.getMessage(), HttpStatus.FORBIDDEN));
     }
 
     private Map<String, String> getResponse(String message, HttpStatus status) {
