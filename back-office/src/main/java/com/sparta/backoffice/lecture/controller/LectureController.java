@@ -1,10 +1,10 @@
 package com.sparta.backoffice.lecture.controller;
 
 import com.sparta.backoffice.admin.type.Role;
-import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.dto.LectureResponseDTO;
 import com.sparta.backoffice.lecture.service.LectureService;
+import com.sparta.backoffice.lecture.type.Category;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,9 +43,16 @@ public class LectureController {
     }
 
     @Secured({Role.Authority.STAFF, Role.Authority.MANAGER})
-    @GetMapping()
-    public ResponseEntity<List<LectureResponseDTO>> readLectureByTeacher(@RequestParam Long teacherId) {
+    @GetMapping("/teachers/{teacherId}")
+    public ResponseEntity<List<LectureResponseDTO>> readLectureByTeacher(@PathVariable Long teacherId) {
         List<LectureResponseDTO> responseDTOList = lectureService.readLectureByTeacher(teacherId);
+        return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
+    }
+
+    @Secured({Role.Authority.STAFF, Role.Authority.MANAGER})
+    @GetMapping("/categories/{category}")
+    public ResponseEntity<List<LectureResponseDTO>> readLectureByCategory(@PathVariable Category category) {
+        List<LectureResponseDTO> responseDTOList = lectureService.readLectureByCategory(category);
         return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
     }
 }

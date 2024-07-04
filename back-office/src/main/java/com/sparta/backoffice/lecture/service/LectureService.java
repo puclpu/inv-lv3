@@ -4,6 +4,7 @@ import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.dto.LectureResponseDTO;
 import com.sparta.backoffice.lecture.repository.LectureRepository;
+import com.sparta.backoffice.lecture.type.Category;
 import com.sparta.backoffice.teacher.domain.Teacher;
 import com.sparta.backoffice.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,15 @@ public class LectureService {
     public List<LectureResponseDTO> readLectureByTeacher(Long teacherId) {
         Teacher teacher = findTeacher(teacherId);
         List<Lecture> lectureList = lectureRepository.findAllByTeacherOrderByCreatedAtDesc(teacher);
+        List<LectureResponseDTO> responseDTOList = new ArrayList<>();
+        for (Lecture lecture : lectureList) {
+            responseDTOList.add(convertToLectureResponseDTO(lecture));
+        }
+        return responseDTOList;
+    }
+
+    public List<LectureResponseDTO> readLectureByCategory(Category category) {
+        List<Lecture> lectureList = lectureRepository.findAllByCategoryOrderByCreatedAtDesc(category);
         List<LectureResponseDTO> responseDTOList = new ArrayList<>();
         for (Lecture lecture : lectureList) {
             responseDTOList.add(convertToLectureResponseDTO(lecture));
