@@ -1,7 +1,6 @@
 package com.sparta.backoffice.teacher.controller;
 
 import com.sparta.backoffice.admin.type.Role;
-import com.sparta.backoffice.teacher.domain.Teacher;
 import com.sparta.backoffice.teacher.dto.TeacherRequestDTO;
 import com.sparta.backoffice.teacher.dto.TeacherResponseDTO;
 import com.sparta.backoffice.teacher.service.TeacherService;
