@@ -17,6 +17,7 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
 
+    @Transactional
     public TeacherResponseDTO createTeacher(TeacherRequestDTO requestDTO) {
         Teacher teacher = Teacher.builder()
                 .name(requestDTO.getName())
