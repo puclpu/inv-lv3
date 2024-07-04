@@ -31,6 +31,6 @@ public class ManagerValidator implements ConstraintValidator<ValidManager, Signu
                 return false;
             }
         }
-        return false;
+        return true;
     }
 }
