@@ -1,5 +1,6 @@
 package com.sparta.backoffice.lecture.domain;
 
+import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.type.Category;
 import com.sparta.backoffice.teacher.domain.Teacher;
 import jakarta.persistence.*;
@@ -37,4 +38,10 @@ public class Lecture extends Timestamped {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
+    public void update(LectureRequestDTO requestDTO) {
+        this.name = requestDTO.getName();
+        this.price = requestDTO.getPrice();
+        this.introduce = requestDTO.getIntroduce();
+        this.category = requestDTO.getCategory();
+    }
 }

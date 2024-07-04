@@ -8,16 +8,19 @@ import com.sparta.backoffice.teacher.domain.Teacher;
 import com.sparta.backoffice.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class LectureService {
 
     private final LectureRepository lectureRepository;
     private final TeacherRepository teacherRepository;
 
+    @Transactional
     public LectureResponseDTO createLecture(LectureRequestDTO requestDTO) {
         Teacher teacher = findTeacher(requestDTO.getTeacherId());
 
@@ -33,6 +36,14 @@ public class LectureService {
         return convertToLectureResponseDTO(lecture);
     }
 
+    @Transactional
+    public LectureResponseDTO updateLecture(LectureRequestDTO requestDTO, Long lectureId) {
+        Lecture lecture = findLecture(lectureId);
+        lecture.update(requestDTO);
+
+        return convertToLectureResponseDTO(lecture);
+    }
+
     private LectureResponseDTO convertToLectureResponseDTO(Lecture lecture) {
         return LectureResponseDTO.builder()
                 .name(lecture.getName())
@@ -42,6 +53,14 @@ public class LectureService {
                 .teacherId(lecture.getTeacher().getId())
                 .createdAt(lecture.getCreatedAt())
                 .build();
+    }
+
+    private Lecture findLecture(Long lectureId) {
+        Optional<Lecture> optionalLecture = lectureRepository.findById(lectureId);
+        if (optionalLecture.isEmpty()) {
+            throw new RuntimeException("해당 강의는 존재하지 않습니다.");
+        }
+        return optionalLecture.get();
     }
 
     private Teacher findTeacher(Long teacherId) {

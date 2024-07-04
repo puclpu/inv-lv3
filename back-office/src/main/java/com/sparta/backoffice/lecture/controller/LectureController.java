@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admins/lecture")
@@ -25,6 +22,13 @@ public class LectureController {
     @PostMapping()
     public ResponseEntity<LectureResponseDTO> createLecture(@RequestBody @Valid LectureRequestDTO requestDTO) {
         LectureResponseDTO responseDTO = lectureService.createLecture(requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @Secured(Role.Authority.MANAGER)
+    @PutMapping("/{lectureId}")
+    public ResponseEntity<LectureResponseDTO> updateLecture(@RequestBody @Valid LectureRequestDTO requestDTO, @PathVariable Long lectureId) {
+        LectureResponseDTO responseDTO = lectureService.updateLecture(requestDTO, lectureId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
