@@ -23,11 +23,11 @@ public class Admin {
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "department", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private Role role;
 }
