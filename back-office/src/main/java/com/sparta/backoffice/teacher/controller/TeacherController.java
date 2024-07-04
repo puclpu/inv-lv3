@@ -31,4 +31,11 @@ public class TeacherController {
         TeacherResponseDTO responseDTO = teacherService.updateTeacher(requestDTO, teacherId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+    @Secured({Role.Authority.STAFF, Role.Authority.MANAGER})
+    @GetMapping("/{teacherId}")
+    public ResponseEntity<TeacherResponseDTO> readTeacher(@PathVariable Long teacherId) {
+        TeacherResponseDTO responseDTO = teacherService.readTeacher(teacherId);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 }

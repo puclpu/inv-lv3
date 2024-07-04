@@ -38,6 +38,11 @@ public class TeacherService {
         return convertToTeacherResponseDTO(teacher);
     }
 
+    public TeacherResponseDTO readTeacher(Long teacherId) {
+        Teacher teacher = findTeacher(teacherId);
+        return convertToTeacherResponseDTO(teacher);
+    }
+
     private TeacherResponseDTO convertToTeacherResponseDTO(Teacher teacher) {
         return TeacherResponseDTO.builder()
                 .name(teacher.getName())
