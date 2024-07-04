@@ -1,6 +1,7 @@
 package com.sparta.backoffice.lecture.controller;
 
 import com.sparta.backoffice.admin.type.Role;
+import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.dto.LectureResponseDTO;
 import com.sparta.backoffice.lecture.service.LectureService;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admins/lecture")
@@ -37,5 +40,12 @@ public class LectureController {
     public ResponseEntity<LectureResponseDTO> readLecture(@PathVariable Long lectureId) {
         LectureResponseDTO responseDTO = lectureService.readLecture(lectureId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @Secured({Role.Authority.STAFF, Role.Authority.MANAGER})
+    @GetMapping()
+    public ResponseEntity<List<LectureResponseDTO>> readLectureByTeacher(@RequestParam Long teacherId) {
+        List<LectureResponseDTO> responseDTOList = lectureService.readLectureByTeacher(teacherId);
+        return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
     }
 }
