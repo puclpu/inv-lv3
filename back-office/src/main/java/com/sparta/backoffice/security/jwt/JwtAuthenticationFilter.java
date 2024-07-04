@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/api/admins/login");
+        setFilterProcessesUrl("/admins/login");
     }
 
     @Override
@@ -53,6 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Role role = ((UserDetailsImpl) authResult.getPrincipal()).getAdmin().getRole();
 
         String token = jwtUtil.createToken(email, role);
+        log.info(token);
         jwtUtil.addJwtToCookie(token, response);
     }
 
