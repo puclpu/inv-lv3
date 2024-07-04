@@ -1,6 +1,7 @@
 package com.sparta.backoffice.lecture.controller;
 
 import com.sparta.backoffice.admin.type.Role;
+import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.dto.LectureResponseDTO;
 import com.sparta.backoffice.lecture.service.LectureService;
@@ -54,5 +55,11 @@ public class LectureController {
     public ResponseEntity<List<LectureResponseDTO>> readLectureByCategory(@PathVariable Category category) {
         List<LectureResponseDTO> responseDTOList = lectureService.readLectureByCategory(category);
         return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{lectureId}")
+    public ResponseEntity<Void> deleteLecture(@PathVariable Long lectureId) {
+        lectureService.deleteLecture(lectureId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

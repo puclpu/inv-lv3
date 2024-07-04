@@ -71,6 +71,12 @@ public class LectureService {
         return responseDTOList;
     }
 
+    @Transactional
+    public void deleteLecture(Long lectureId) {
+        Lecture lecture = findLecture(lectureId);
+        lectureRepository.delete(lecture);
+    }
+
     private LectureResponseDTO convertToLectureResponseDTO(Lecture lecture) {
         return LectureResponseDTO.builder()
                 .name(lecture.getName())
