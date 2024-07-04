@@ -44,6 +44,11 @@ public class LectureService {
         return convertToLectureResponseDTO(lecture);
     }
 
+    public LectureResponseDTO readLecture(Long lectureId) {
+        Lecture lecture = findLecture(lectureId);
+        return convertToLectureResponseDTO(lecture);
+    }
+
     private LectureResponseDTO convertToLectureResponseDTO(Lecture lecture) {
         return LectureResponseDTO.builder()
                 .name(lecture.getName())

@@ -31,4 +31,11 @@ public class LectureController {
         LectureResponseDTO responseDTO = lectureService.updateLecture(requestDTO, lectureId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+    @Secured({Role.Authority.STAFF, Role.Authority.MANAGER})
+    @GetMapping("/{lectureId}")
+    public ResponseEntity<LectureResponseDTO> readLecture(@PathVariable Long lectureId) {
+        LectureResponseDTO responseDTO = lectureService.readLecture(lectureId);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 }
