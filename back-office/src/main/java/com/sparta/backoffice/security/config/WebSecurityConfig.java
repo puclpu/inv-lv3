@@ -1,7 +1,7 @@
 package com.sparta.backoffice.security.config;
 
-import com.sparta.backoffice.security.jwt.JwtAuthenticationFilter;
-import com.sparta.backoffice.security.jwt.JwtAuthorizationFilter;
+import com.sparta.backoffice.security.filter.JwtAuthenticationFilter;
+import com.sparta.backoffice.security.filter.JwtAuthorizationFilter;
 import com.sparta.backoffice.security.jwt.JwtUtil;
 import com.sparta.backoffice.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
