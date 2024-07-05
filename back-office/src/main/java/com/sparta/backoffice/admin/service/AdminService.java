@@ -3,6 +3,8 @@ package com.sparta.backoffice.admin.service;
 import com.sparta.backoffice.admin.domain.Admin;
 import com.sparta.backoffice.admin.dto.SignupRequestDTO;
 import com.sparta.backoffice.admin.repository.AdminRepository;
+import com.sparta.backoffice.global.exception.CustomException;
+import com.sparta.backoffice.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class AdminService {
         // 회원 중복 확인
         Optional<Admin> checkEmail = adminRepository.findByEmail(email);
         if (checkEmail.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다");
+            throw new CustomException(ExceptionCode.MEMBER_EXISTS);
         }
 
         // 사용자 등록
