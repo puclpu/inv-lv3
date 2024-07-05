@@ -1,11 +1,15 @@
 package com.sparta.backoffice.teacher.domain;
 
+import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.teacher.dto.TeacherRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "teacher")
@@ -33,6 +37,9 @@ public class Teacher {
 
     @Column(name = "introduce", nullable = false, length = 150)
     private String introduce;
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<Lecture> lectures = new ArrayList<>();
 
     public void update(TeacherRequestDTO requestDTO) {
         this.experience = requestDTO.getExperience();

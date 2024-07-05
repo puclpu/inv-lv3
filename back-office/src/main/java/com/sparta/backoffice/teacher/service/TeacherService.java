@@ -44,6 +44,12 @@ public class TeacherService {
         return convertToTeacherResponseDTO(teacher);
     }
 
+    @Transactional
+    public void deleteTeacher(Long teacherId) {
+        Teacher teacher = findTeacher(teacherId);
+        teacherRepository.deleteById(teacherId);
+    }
+
     private TeacherResponseDTO convertToTeacherResponseDTO(Teacher teacher) {
         return TeacherResponseDTO.builder()
                 .name(teacher.getName())
