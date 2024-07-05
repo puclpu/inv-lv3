@@ -1,5 +1,7 @@
 package com.sparta.backoffice.teacher.service;
 
+import com.sparta.backoffice.global.exception.CustomException;
+import com.sparta.backoffice.global.exception.ExceptionCode;
 import com.sparta.backoffice.teacher.domain.Teacher;
 import com.sparta.backoffice.teacher.dto.TeacherRequestDTO;
 import com.sparta.backoffice.teacher.dto.TeacherResponseDTO;
@@ -63,7 +65,7 @@ public class TeacherService {
     private Teacher findTeacher(Long teacherId) {
         Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
         if (optionalTeacher.isEmpty()) {
-            throw new RuntimeException("해당하는 강사가 없습니다.");
+            throw new CustomException(ExceptionCode.TEACHER_NOT_FOUND);
         }
         return optionalTeacher.get();
     }
