@@ -38,4 +38,11 @@ public class TeacherController {
         TeacherResponseDTO responseDTO = teacherService.readTeacher(teacherId);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+    @Secured(Role.Authority.MANAGER)
+    @DeleteMapping("/{teacherId}")
+    public ResponseEntity<Void> deleteTeacher(@PathVariable Long teacherId) {
+        teacherService.deleteTeacher(teacherId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
