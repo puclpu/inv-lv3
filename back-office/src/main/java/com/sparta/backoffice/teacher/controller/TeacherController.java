@@ -39,6 +39,7 @@ public class TeacherController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+    @Secured(Role.Authority.MANAGER)
     @DeleteMapping("/{teacherId}")
     public ResponseEntity<Void> deleteTeacher(@PathVariable Long teacherId) {
         teacherService.deleteTeacher(teacherId);

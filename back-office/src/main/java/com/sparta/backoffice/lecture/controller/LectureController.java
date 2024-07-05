@@ -57,6 +57,7 @@ public class LectureController {
         return new ResponseEntity<>(responseDTOList, HttpStatus.OK);
     }
 
+    @Secured(Role.Authority.MANAGER)
     @DeleteMapping("/{lectureId}")
     public ResponseEntity<Void> deleteLecture(@PathVariable Long lectureId) {
         lectureService.deleteLecture(lectureId);
