@@ -47,7 +47,7 @@ public class TeacherService {
     @Transactional
     public void deleteTeacher(Long teacherId) {
         Teacher teacher = findTeacher(teacherId);
-        teacherRepository.deleteById(teacherId);
+        teacherRepository.delete(teacher);
     }
 
     private TeacherResponseDTO convertToTeacherResponseDTO(Teacher teacher) {
