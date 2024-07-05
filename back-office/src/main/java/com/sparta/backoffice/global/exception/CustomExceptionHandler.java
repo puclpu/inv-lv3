@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
@@ -28,7 +26,6 @@ public class CustomExceptionHandler {
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException e, HttpServletRequest request) {
         BindingResult bindingResult = e.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        List<ObjectError> errors = bindingResult.getAllErrors();
         StringBuilder stringBuilder = new StringBuilder();
         for (FieldError fieldError : fieldErrors) {
             stringBuilder.append(fieldError.getField())
@@ -36,18 +33,19 @@ public class CustomExceptionHandler {
                     .append(fieldError.getDefaultMessage())
                     .append("; ");
         }
-        for (ObjectError objectError: errors) {
-            stringBuilder.append(objectError.getDefaultMessage())
-                    .append("; ");
-        }
         String errorMessage = stringBuilder.toString();
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getResponse(errorMessage, HttpStatus.BAD_REQUEST));
+        return new ResponseEntity<>(getResponse(errorMessage, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(getResponse(e.getMessage(), HttpStatus.FORBIDDEN));
+        return new ResponseEntity<>(getResponse(e.getMessage(), HttpStatus.FORBIDDEN), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<Map<String, String>> handleCustomException(CustomException e) {
+        return new ResponseEntity<>(getResponse(e.getMessage(), e.getHttpStatus()), e.getHttpStatus());
     }
 
     private Map<String, String> getResponse(String message, HttpStatus status) {

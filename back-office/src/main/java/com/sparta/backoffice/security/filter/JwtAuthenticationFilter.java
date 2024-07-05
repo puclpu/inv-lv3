@@ -1,21 +1,24 @@
-package com.sparta.backoffice.security.jwt;
+package com.sparta.backoffice.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.backoffice.admin.dto.LoginRequestDTO;
 import com.sparta.backoffice.admin.type.Role;
+import com.sparta.backoffice.security.jwt.JwtUtil;
 import com.sparta.backoffice.security.service.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -42,7 +45,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             );
         } catch (IOException e) {
             log.error(e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new AuthenticationException("잘못된 입력 요청입니다.") {};
         }
     }
 
@@ -60,6 +63,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         log.info("로그인 실패");
-        response.setStatus(401);
+        response.setContentType("application/json;charset=UTF-8");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = new HashMap<>();
+
+        if (failed instanceof BadCredentialsException) { // 401 에러의 경우
+            map.put("message", "아이디나 비밀번호가 일치하지 않습니다.");
+            map.put("code", "401");
+            map.put("error type", "Unauthorized");
+        } else {
+            map.put("message", failed.getMessage());
+            map.put("code", "400");
+            map.put("error type", "Bad Request");
+        }
+        mapper.writeValue(response.getWriter(), map);
     }
 }

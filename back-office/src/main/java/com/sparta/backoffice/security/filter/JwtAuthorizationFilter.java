@@ -1,5 +1,6 @@
-package com.sparta.backoffice.security.jwt;
+package com.sparta.backoffice.security.filter;
 
+import com.sparta.backoffice.security.jwt.JwtUtil;
 import com.sparta.backoffice.security.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

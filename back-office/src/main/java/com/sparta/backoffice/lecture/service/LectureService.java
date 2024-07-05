@@ -1,5 +1,7 @@
 package com.sparta.backoffice.lecture.service;
 
+import com.sparta.backoffice.global.exception.CustomException;
+import com.sparta.backoffice.global.exception.ExceptionCode;
 import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.dto.LectureResponseDTO;
@@ -91,7 +93,7 @@ public class LectureService {
     private Lecture findLecture(Long lectureId) {
         Optional<Lecture> optionalLecture = lectureRepository.findById(lectureId);
         if (optionalLecture.isEmpty()) {
-            throw new RuntimeException("해당 강의는 존재하지 않습니다.");
+            throw new CustomException(ExceptionCode.LECTURE_NOT_FOUND);
         }
         return optionalLecture.get();
     }
@@ -99,7 +101,7 @@ public class LectureService {
     private Teacher findTeacher(Long teacherId) {
         Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
         if (optionalTeacher.isEmpty()) {
-            throw new RuntimeException("해당 강사는 존재하지 않습니다.");
+            throw new CustomException(ExceptionCode.TEACHER_NOT_FOUND);
         }
         return optionalTeacher.get();
     }
