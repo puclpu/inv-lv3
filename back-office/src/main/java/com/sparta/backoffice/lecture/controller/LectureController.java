@@ -1,7 +1,6 @@
 package com.sparta.backoffice.lecture.controller;
 
 import com.sparta.backoffice.admin.type.Role;
-import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.dto.LectureResponseDTO;
 import com.sparta.backoffice.lecture.service.LectureService;
