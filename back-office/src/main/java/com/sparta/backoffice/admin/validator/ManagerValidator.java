@@ -3,8 +3,6 @@ package com.sparta.backoffice.admin.validator;
 import com.sparta.backoffice.admin.dto.SignupRequestDTO;
 import com.sparta.backoffice.admin.type.Department;
 import com.sparta.backoffice.admin.type.Role;
-import com.sparta.backoffice.global.exception.CustomException;
-import com.sparta.backoffice.global.exception.ExceptionCode;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +25,7 @@ public class ManagerValidator implements ConstraintValidator<ValidManager, Signu
                 log.error("CURRICULUM 또는 DEVELOPMENT 부서만 MANAGER 권한을 가질 수 있습니다.");
                 constraintValidatorContext.disableDefaultConstraintViolation();
                 constraintValidatorContext.buildConstraintViolationWithTemplate("CURRICULUM 또는 DEVELOPMENT 부서만 MANAGER 권한을 가질 수 있습니다.")
+                        .addPropertyNode("role")
                         .addConstraintViolation();
                 return false;
             }
