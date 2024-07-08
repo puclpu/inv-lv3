@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -23,8 +21,7 @@ public class AdminService {
         String password = passwordEncoder.encode(requestDTO.getPassword());
 
         // 회원 중복 확인
-        Optional<Admin> checkEmail = adminRepository.findByEmail(email);
-        if (checkEmail.isPresent()) {
+        if (adminRepository.existsByEmail(email)) {
             throw new CustomException(ExceptionCode.MEMBER_EXISTS);
         }
 
