@@ -26,12 +26,7 @@ public class AdminService {
         }
 
         // 사용자 등록
-        Admin admin = Admin.builder()
-                .email(email)
-                .password(password)
-                .department(requestDTO.getDepartment())
-                .role(requestDTO.getRole())
-                .build();
+        Admin admin = Admin.of(requestDTO, password);
         adminRepository.save(admin);
     }
 }

@@ -1,5 +1,6 @@
 package com.sparta.backoffice.admin.domain;
 
+import com.sparta.backoffice.admin.dto.SignupRequestDTO;
 import com.sparta.backoffice.admin.type.Department;
 import com.sparta.backoffice.admin.type.Role;
 import jakarta.persistence.*;
@@ -9,7 +10,7 @@ import lombok.*;
 @Table(name = "admin")
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Admin {
 
@@ -30,4 +31,14 @@ public class Admin {
     @Column(name = "role", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public static Admin of(SignupRequestDTO requestDTO, String password) {
+        return Admin.builder()
+                .email(requestDTO.getEmail())
+                .password(password)
+                .department(requestDTO.getDepartment())
+                .role(requestDTO.getRole())
+                .build();
+    }
+
 }
