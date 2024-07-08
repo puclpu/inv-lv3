@@ -21,15 +21,9 @@ public class TeacherService {
 
     @Transactional
     public TeacherResponseDTO createTeacher(TeacherRequestDTO requestDTO) {
-        Teacher teacher = Teacher.builder()
-                .name(requestDTO.getName())
-                .experience(requestDTO.getExperience())
-                .company(requestDTO.getCompany())
-                .phone(requestDTO.getPhone())
-                .introduce(requestDTO.getIntroduce())
-                .build();
+        Teacher teacher = Teacher.from(requestDTO);
         teacherRepository.save(teacher);
-        return convertToTeacherResponseDTO(teacher);
+        return TeacherResponseDTO.from(teacher);
     }
 
     @Transactional
@@ -38,28 +32,18 @@ public class TeacherService {
         Teacher teacher = findTeacher(teacherId);
         teacher.update(requestDTO);
 
-        return convertToTeacherResponseDTO(teacher);
+        return TeacherResponseDTO.from(teacher);
     }
 
     public TeacherResponseDTO readTeacher(Long teacherId) {
         Teacher teacher = findTeacher(teacherId);
-        return convertToTeacherResponseDTO(teacher);
+        return TeacherResponseDTO.from(teacher);
     }
 
     @Transactional
     public void deleteTeacher(Long teacherId) {
         Teacher teacher = findTeacher(teacherId);
         teacherRepository.delete(teacher);
-    }
-
-    private TeacherResponseDTO convertToTeacherResponseDTO(Teacher teacher) {
-        return TeacherResponseDTO.builder()
-                .name(teacher.getName())
-                .experience(teacher.getExperience())
-                .company(teacher.getCompany())
-                .phone(teacher.getPhone())
-                .introduce(teacher.getIntroduce())
-                .build();
     }
 
     private Teacher findTeacher(Long teacherId) {

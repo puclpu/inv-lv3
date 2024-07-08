@@ -3,10 +3,7 @@ package com.sparta.backoffice.teacher.domain;
 import com.sparta.backoffice.lecture.domain.Lecture;
 import com.sparta.backoffice.teacher.dto.TeacherRequestDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.List;
 @Table(name = "teacher")
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Teacher {
 
@@ -40,6 +37,16 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Lecture> lectures = new ArrayList<>();
+
+    public static Teacher from(TeacherRequestDTO requestDTO) {
+        return Teacher.builder()
+                .name(requestDTO.getName())
+                .experience(requestDTO.getExperience())
+                .company(requestDTO.getCompany())
+                .phone(requestDTO.getPhone())
+                .introduce(requestDTO.getIntroduce())
+                .build();
+    }
 
     public void update(TeacherRequestDTO requestDTO) {
         this.experience = requestDTO.getExperience();
