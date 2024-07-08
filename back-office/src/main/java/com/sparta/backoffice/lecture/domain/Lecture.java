@@ -4,16 +4,13 @@ import com.sparta.backoffice.lecture.dto.LectureRequestDTO;
 import com.sparta.backoffice.lecture.type.Category;
 import com.sparta.backoffice.teacher.domain.Teacher;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "lecture")
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Lecture extends Timestamped {
 
@@ -37,6 +34,16 @@ public class Lecture extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    public static Lecture of (LectureRequestDTO requestDTO, Teacher teacher) {
+        return Lecture.builder()
+                .name(requestDTO.getName())
+                .price(requestDTO.getPrice())
+                .introduce(requestDTO.getIntroduce())
+                .category(requestDTO.getCategory())
+                .teacher(teacher)
+                .build();
+    }
 
     public void update(LectureRequestDTO requestDTO) {
         this.name = requestDTO.getName();
