@@ -18,14 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class LectureService {
 
     private final LectureRepository lectureRepository;
     private final TeacherRepository teacherRepository;
 
-    @Transactional
     public LectureResponseDTO createLecture(LectureRequestDTO requestDTO) {
         Teacher teacher = findTeacher(requestDTO.getTeacherId());
 
@@ -67,7 +65,6 @@ public class LectureService {
         return responseDTOList;
     }
 
-    @Transactional
     public void deleteLecture(Long lectureId) {
         Lecture lecture = findLecture(lectureId);
         lectureRepository.delete(lecture);

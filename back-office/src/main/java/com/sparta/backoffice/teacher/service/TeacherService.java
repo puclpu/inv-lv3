@@ -13,13 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
 
-    @Transactional
     public TeacherResponseDTO createTeacher(TeacherRequestDTO requestDTO) {
         Teacher teacher = Teacher.from(requestDTO);
         teacherRepository.save(teacher);
