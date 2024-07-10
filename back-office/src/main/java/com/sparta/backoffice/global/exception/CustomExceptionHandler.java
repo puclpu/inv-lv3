@@ -26,16 +26,15 @@ public class CustomExceptionHandler {
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException e, HttpServletRequest request) {
         BindingResult bindingResult = e.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder errorMessage = new StringBuilder();
         for (FieldError fieldError : fieldErrors) {
-            stringBuilder.append(fieldError.getField())
+            errorMessage.append(fieldError.getField())
                     .append(": ")
                     .append(fieldError.getDefaultMessage())
                     .append("; ");
         }
-        String errorMessage = stringBuilder.toString();
 
-        return new ResponseEntity<>(getResponse(errorMessage, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(getResponse(errorMessage.toString(), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
